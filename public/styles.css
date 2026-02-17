@@ -2275,3 +2275,377 @@ html {
     font-size: 24px;
   }
 }
+
+/* ══════════════════════════════════════════
+   MISSION SECTION
+   ══════════════════════════════════════════ */
+.mission-section {
+  padding: 60px 0;
+}
+
+.mission-text {
+  max-width: 700px;
+  margin: 0 auto 32px;
+  font-size: 17px;
+  line-height: 1.9;
+  color: var(--text-secondary);
+}
+
+.mission-icons {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.mission-icon-item {
+  text-align: center;
+}
+
+.mission-icon-item span {
+  font-size: 40px;
+  display: block;
+  margin-bottom: 8px;
+  animation: floatIcon 3s ease-in-out infinite;
+}
+
+.mission-icon-item p {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 15px;
+}
+
+@keyframes floatIcon {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* ══════════════════════════════════════════
+   GLASS CARD + PROGRESS BARS (ACHIEVEMENTS)
+   ══════════════════════════════════════════ */
+.glass-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+}
+
+.achieve-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  margin-top: 12px;
+  overflow: hidden;
+}
+
+.achieve-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 4px;
+  width: 0%;
+  transition: width 1.5s ease-out;
+}
+
+.pulse-icon {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+
+  0%,
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+
+  50% {
+    transform: scale(1.15);
+    filter: brightness(1.3);
+  }
+}
+
+/* ══════════════════════════════════════════
+   CLIENT REVIEWS MARQUEE
+   ══════════════════════════════════════════ */
+.reviews-section {
+  padding: 60px 0;
+  overflow: hidden;
+}
+
+.reviews-marquee {
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.reviews-track {
+  display: flex;
+  gap: 20px;
+  animation: marqueeScroll 30s linear infinite;
+  width: max-content;
+}
+
+.review-card {
+  min-width: 300px;
+  max-width: 320px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  flex-shrink: 0;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.review-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.15);
+}
+
+.review-stars {
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.review-card p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.review-card span {
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* ══════════════════════════════════════════
+   TRACKING SECTION
+   ══════════════════════════════════════════ */
+.track-section {
+  padding: 60px 0;
+}
+
+.track-box {
+  max-width: 600px;
+  margin: 24px auto 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+}
+
+.track-form .form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.track-form input {
+  padding: 14px 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text-primary);
+  font-size: 15px;
+  font-family: inherit;
+  transition: border-color 0.3s;
+}
+
+.track-form input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.track-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.track-actions .btn {
+  flex: 1;
+  min-width: 160px;
+}
+
+.track-result {
+  margin-top: 20px;
+  padding: 20px;
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid var(--accent);
+  border-radius: 14px;
+}
+
+/* ══════════════════════════════════════════
+   HERO UPGRADES
+   ══════════════════════════════════════════ */
+.hero-logo-glow {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.hero-logo-glow::after {
+  content: '';
+  position: absolute;
+  inset: -15px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: -1;
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+.hero-sub-tagline {
+  font-size: 15px;
+  color: var(--accent);
+  opacity: 0.85;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+/* ══════════════════════════════════════════
+   SHINE BUTTON EFFECT
+   ══════════════════════════════════════════ */
+.shine-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-effect::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  animation: shineSlide 3s ease-in-out infinite;
+}
+
+@keyframes shineSlide {
+  0% {
+    left: -100%;
+  }
+
+  50% {
+    left: 120%;
+  }
+
+  100% {
+    left: 120%;
+  }
+}
+
+/* ══════════════════════════════════════════
+   FADE IN UP ANIMATION
+   ══════════════════════════════════════════ */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+.fade-in-up:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.fade-in-up:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.fade-in-up:nth-child(4) {
+  animation-delay: 0.45s;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ══════════════════════════════════════════
+   SELECT / DROPDOWN STYLING
+   ══════════════════════════════════════════ */
+select {
+  padding: 12px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text-primary);
+  font-size: 15px;
+  font-family: inherit;
+  width: 100%;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236366f1' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 14px center;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE: TRACKING + MISSION
+   ══════════════════════════════════════════ */
+@media (max-width: 600px) {
+  .track-form .form-grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .track-actions {
+    flex-direction: column;
+  }
+
+  .mission-icons {
+    gap: 24px;
+  }
+
+  .review-card {
+    min-width: 260px;
+  }
+
+  .auth-tabs {
+    flex-wrap: wrap;
+  }
+
+  .auth-tab {
+    font-size: 12px;
+    padding: 10px 12px;
+  }
+}

@@ -61,7 +61,7 @@
   <!-- ═══════════════════════════════════ -->
   <main class="landing" id="loginView">
 
-    <!-- ── 1. HERO: Logo + Search ── -->
+    <!-- ── 1. HERO: Animated + Search ── -->
     <section class="hero-section">
       <div class="hero-particles">
         <div class="particle p1"></div>
@@ -72,58 +72,152 @@
         <div class="particle p6"></div>
       </div>
       <div class="hero-center">
-        <img src="/logo.png" alt="شعار منصة 2169" class="hero-main-logo" />
+        <div class="hero-logo-glow">
+          <img src="/logo.png" alt="شعار منصة 2169" class="hero-main-logo" />
+        </div>
         <h1 class="hero-title">
           <span class="hero-gradient-text">منصة 2169</span>
         </h1>
-        <p class="hero-tagline">لإدارة ومتابعة المعاملات الحكومية | إدارة متعب العنزي</p>
+        <p class="hero-tagline">الحل الذكي لإدارة ومتابعة المعاملات الحكومية</p>
+        <p class="hero-sub-tagline fade-in-up">إدارة متعب العنزي | خبرة +5 سنوات | +500 معاملة منجزة</p>
 
         <!-- Search Bar -->
         <div class="hero-search-box">
           <form id="heroSearchForm" class="hero-search-form">
-            <input type="text" id="heroSearchInput" placeholder="ابحث برقم المعاملة..." autocomplete="off" />
-            <button type="submit" class="hero-search-btn">🔍 بحث</button>
+            <input type="text" id="heroSearchInput" placeholder="🔍 ابحث برقم المعاملة (مثال: TXN-001)..."
+              autocomplete="off" />
+            <button type="submit" class="hero-search-btn">بحث</button>
           </form>
           <div id="heroSearchResult" class="hero-search-result hidden"></div>
         </div>
 
         <div class="hero-nav-btns">
-          <a href="#services" class="btn primary hero-btn">🚀 خدماتنا</a>
+          <a href="#services" class="btn primary hero-btn shine-effect">🚀 خدماتنا</a>
           <a href="#loginSection" class="btn glass hero-btn">🔐 دخول المنصة</a>
-          <a href="https://wa.me/966502049200" target="_blank" class="btn wa-btn hero-btn">📱 تواصل معنا</a>
+          <a href="#trackSection" class="btn glass hero-btn">📍 تتبع معاملة</a>
+          <a href="https://wa.me/966502049200?text=مرحباً، أحتاج مساعدة من منصة 2169" target="_blank"
+            class="btn wa-btn hero-btn">📱 تواصل واتساب</a>
         </div>
       </div>
     </section>
 
-    <!-- ── 2. ACHIEVEMENTS / Stats ── -->
+    <!-- ── 2. OUR MISSION ── -->
+    <section class="mission-section">
+      <div class="section-container center-text">
+        <div class="section-badge">رسالتنا</div>
+        <h2 class="section-title">نسعى لتسهيل حياتك</h2>
+        <p class="mission-text">
+          نؤمن في <strong>منصة 2169</strong> بأن الخدمات الحكومية يجب أن تكون سهلة وشفافة ومتاحة للجميع.
+          نقدم لك تجربة رقمية متكاملة لإنجاز معاملاتك بأسرع وقت وأعلى جودة، مع متابعة لحظية
+          وإشعارات واتساب فورية عند كل تحديث. فريقنا المتخصص يعمل على مدار الساعة لضمان رضاكم.
+        </p>
+        <div class="mission-icons">
+          <div class="mission-icon-item fade-in-up"><span>⚡</span>
+            <p>سرعة</p>
+          </div>
+          <div class="mission-icon-item fade-in-up"><span>🛡️</span>
+            <p>أمان</p>
+          </div>
+          <div class="mission-icon-item fade-in-up"><span>🤝</span>
+            <p>ثقة</p>
+          </div>
+          <div class="mission-icon-item fade-in-up"><span>📊</span>
+            <p>شفافية</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 3. ACHIEVEMENTS / Stats (Animated Counters) ── -->
     <section class="achievements-section">
       <div class="section-container">
         <div class="achievements-grid">
-          <div class="achieve-card">
-            <div class="achieve-icon">📋</div>
-            <div class="achieve-num">+500</div>
+          <div class="achieve-card glass-card">
+            <div class="achieve-icon pulse-icon">📋</div>
+            <div class="achieve-num" data-count="500">0</div>
             <div class="achieve-label">معاملة منجزة</div>
+            <div class="achieve-bar">
+              <div class="achieve-bar-fill" style="width:92%"></div>
+            </div>
           </div>
-          <div class="achieve-card">
-            <div class="achieve-icon">👥</div>
-            <div class="achieve-num">+300</div>
+          <div class="achieve-card glass-card">
+            <div class="achieve-icon pulse-icon">👥</div>
+            <div class="achieve-num" data-count="300">0</div>
             <div class="achieve-label">عميل يثق بنا</div>
+            <div class="achieve-bar">
+              <div class="achieve-bar-fill" style="width:85%"></div>
+            </div>
           </div>
-          <div class="achieve-card">
-            <div class="achieve-icon">⭐</div>
-            <div class="achieve-num">4.9</div>
+          <div class="achieve-card glass-card">
+            <div class="achieve-icon pulse-icon">⭐</div>
+            <div class="achieve-num" data-count="4.9" data-decimal="true">0</div>
             <div class="achieve-label">تقييم العملاء</div>
+            <div class="achieve-bar">
+              <div class="achieve-bar-fill" style="width:98%"></div>
+            </div>
           </div>
-          <div class="achieve-card">
-            <div class="achieve-icon">🏆</div>
-            <div class="achieve-num">+5</div>
+          <div class="achieve-card glass-card">
+            <div class="achieve-icon pulse-icon">🏆</div>
+            <div class="achieve-num" data-count="5">0</div>
             <div class="achieve-label">سنوات خبرة</div>
+            <div class="achieve-bar">
+              <div class="achieve-bar-fill" style="width:75%"></div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ── 3. SERVICES ── -->
+    <!-- ── 4. CLIENT REVIEWS MARQUEE ── -->
+    <section class="reviews-section">
+      <div class="section-container center-text">
+        <div class="section-badge">آراء العملاء</div>
+        <h2 class="section-title">ماذا يقول عملاؤنا</h2>
+      </div>
+      <div class="reviews-marquee">
+        <div class="reviews-track">
+          <div class="review-card">
+            <div class="review-stars">⭐⭐⭐⭐⭐</div>
+            <p>"خدمة ممتازة وسريعة، معاملتي خلصت بيومين!"</p><span>— محمد العلي</span>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">⭐⭐⭐⭐⭐</div>
+            <p>"أفضل منصة تعاملت معها، شفافية عالية"</p><span>— فهد الشمري</span>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">⭐⭐⭐⭐⭐</div>
+            <p>"متابعة حية ودعم واتساب فوري، شكراً 2169"</p><span>— سارة المطيري</span>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">⭐⭐⭐⭐⭐</div>
+            <p>"أنجزوا معاملتي في أقل من 24 ساعة!"</p><span>— عبدالله القحطاني</span>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">⭐⭐⭐⭐⭐</div>
+            <p>"أسعارهم معقولة وتعاملهم راقي جداً"</p><span>— نورة الدوسري</span>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">⭐⭐⭐⭐⭐</div>
+            <p>"المساعد الذكي ساعدني كثير بالاستفسارات"</p><span>— خالد الحربي</span>
+          </div>
+          <!-- Duplicate for infinite scroll -->
+          <div class="review-card">
+            <div class="review-stars">⭐⭐⭐⭐⭐</div>
+            <p>"خدمة ممتازة وسريعة، معاملتي خلصت بيومين!"</p><span>— محمد العلي</span>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">⭐⭐⭐⭐⭐</div>
+            <p>"أفضل منصة تعاملت معها، شفافية عالية"</p><span>— فهد الشمري</span>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">⭐⭐⭐⭐⭐</div>
+            <p>"متابعة حية ودعم واتساب فوري، شكراً 2169"</p><span>— سارة المطيري</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 5. SERVICES ── -->
     <section class="services-section" id="services">
       <div class="section-container">
         <div class="section-badge">خدماتنا</div>
@@ -150,20 +244,52 @@
             <p>إجراءات نقل الكفالة والخدمات المرتبطة بسلاسة تامة</p>
           </div>
           <div class="service-card">
+            <div class="service-icon">💰</div>
+            <h3>طلب عرض سعر</h3>
+            <p>احصل على عرض سعر فوري لأي معاملة أو خدمة حكومية</p>
+          </div>
+          <div class="service-card">
+            <div class="service-icon">🏢</div>
+            <h3>خدمات تجارية</h3>
+            <p>تأسيس شركات، تجديد سجلات تجارية، تراخيص بلدية</p>
+          </div>
+          <div class="service-card">
             <div class="service-icon">📊</div>
             <h3>متابعة لحظية</h3>
-            <p>تتبع حالة معاملتك أولاً بأول عبر المنصة الذكية</p>
+            <p>تتبع حالة معاملتك أولاً بأول مع إشعارات واتساب فورية</p>
           </div>
           <div class="service-card">
             <div class="service-icon">🤖</div>
             <h3>مساعد ذكي AI</h3>
-            <p>مساعد ذكي يعمل بالذكاء الاصطناعي يجيب على استفساراتك</p>
+            <p>وكيل ذكي بتقنية Gemini 2.5 يجيب على أي استفسار 24/7</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ── 4. FEATURES ── -->
+    <!-- ── 6. TRACKING LINK ── -->
+    <section class="track-section" id="trackSection">
+      <div class="section-container center-text">
+        <div class="section-badge">📍 تتبع معاملتك</div>
+        <h2 class="section-title">تتبع معاملتك مباشرة</h2>
+        <p class="muted">أدخل رقم المعاملة ورقم الجوال للحصول على رابط تتبع حي</p>
+        <div class="track-box">
+          <form id="trackForm" class="track-form">
+            <div class="form-grid-2">
+              <input type="text" id="trackNumber" placeholder="رقم المعاملة (TXN-001)" required />
+              <input type="tel" id="trackPhone" placeholder="رقم الجوال (05xxxxxxxx)" required />
+            </div>
+            <div class="track-actions">
+              <button type="submit" class="btn primary">📍 تتبع المعاملة</button>
+              <button type="button" id="sendTrackLinkBtn" class="btn wa-btn">📤 إرسال رابط التتبع واتساب</button>
+            </div>
+          </form>
+          <div id="trackResult" class="track-result hidden"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 7. FEATURES ── -->
     <section class="features-section">
       <div class="section-container">
         <div class="section-badge">لماذا نحن</div>
@@ -181,19 +307,19 @@
           </div>
           <div class="feature-item">
             <div class="feature-num">03</div>
-            <h3>إشعارات فورية</h3>
-            <p>إشعارات واتساب فورية عند كل تحديث على معاملتك</p>
+            <h3>تحديثات واتساب فورية</h3>
+            <p>إشعارات واتساب تلقائية عند كل تحديث على معاملتك</p>
           </div>
           <div class="feature-item">
             <div class="feature-num">04</div>
-            <h3>دعم على مدار الساعة</h3>
-            <p>فريق دعم متاح لخدمتك في أي وقت تحتاجه</p>
+            <h3>دعم AI على مدار الساعة</h3>
+            <p>مساعد ذكي متاح 24/7 يجيب على استفساراتك فوراً</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ── 5. LOGIN / REGISTER Section ── -->
+    <!-- ── 8. LOGIN / REGISTER Section (5 Tabs) ── -->
     <section class="login-section" id="loginSection">
       <div class="section-container">
         <div class="section-badge">ابدأ الآن</div>
@@ -201,9 +327,11 @@
 
         <div class="auth-tabs-wrapper">
           <div class="auth-tabs">
-            <button class="auth-tab active" id="tabClient" type="button">🔍 استعلام عن معاملة</button>
-            <button class="auth-tab" id="tabNewRequest" type="button">📋 طلب معاملة جديدة</button>
-            <button class="auth-tab" id="tabAdmin" type="button">🔐 تسجيل دخول الإدارة</button>
+            <button class="auth-tab active" id="tabClient" type="button">🔍 استعلام</button>
+            <button class="auth-tab" id="tabNewRequest" type="button">📋 طلب جديد</button>
+            <button class="auth-tab" id="tabQuote" type="button">💰 عرض سعر</button>
+            <button class="auth-tab" id="tabCommercial" type="button">🏢 خدمة تجارية</button>
+            <button class="auth-tab" id="tabAdmin" type="button">🔐 إدارة</button>
           </div>
 
           <!-- Panel 1: Client Inquiry -->
@@ -232,7 +360,7 @@
             <div class="auth-card">
               <div class="auth-card-header">
                 <h3>📋 طلب معاملة جديدة</h3>
-                <p class="muted">قدم طلبك وسنتواصل معك في أقرب وقت</p>
+                <p class="muted">قدم طلبك وسنتواصل معك في أقرب وقت عبر واتساب</p>
               </div>
               <form id="requestForm" class="form">
                 <div class="form-grid-2">
@@ -258,7 +386,85 @@
             </div>
           </div>
 
-          <!-- Panel 3: Admin Login -->
+          <!-- Panel 3: Price Quote -->
+          <div class="auth-panel hidden" id="quotePanel">
+            <div class="auth-card">
+              <div class="auth-card-header">
+                <h3>💰 طلب عرض سعر</h3>
+                <p class="muted">احصل على عرض سعر مفصل لمعاملتك</p>
+              </div>
+              <form id="quoteForm" class="form">
+                <div class="form-grid-2">
+                  <label>الاسم الكامل
+                    <input type="text" id="quoteName" required />
+                  </label>
+                  <label>رقم الجوال
+                    <input type="tel" id="quotePhone" placeholder="05xxxxxxxx" required />
+                  </label>
+                </div>
+                <label>نوع الخدمة
+                  <select id="quoteService" required>
+                    <option value="">اختر الخدمة</option>
+                    <option value="إصدار ترخيص">إصدار ترخيص</option>
+                    <option value="تجديد سجل تجاري">تجديد سجل تجاري</option>
+                    <option value="نقل كفالة">نقل كفالة</option>
+                    <option value="استخراج تأشيرة">استخراج تأشيرة</option>
+                    <option value="معاملة حكومية">معاملة حكومية</option>
+                    <option value="استخراج وثائق">استخراج وثائق</option>
+                    <option value="ترخيص بلدية">ترخيص بلدية</option>
+                    <option value="أخرى">أخرى</option>
+                  </select>
+                </label>
+                <label>وصف الطلب
+                  <textarea id="quoteDesc" rows="3" placeholder="اشرح تفاصيل المعاملة المطلوبة"></textarea>
+                </label>
+                <button type="submit" class="btn primary full-w">💰 طلب عرض السعر</button>
+                <div id="quoteSuccess" class="msg success hidden"></div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Panel 4: Commercial Service -->
+          <div class="auth-panel hidden" id="commercialPanel">
+            <div class="auth-card">
+              <div class="auth-card-header">
+                <h3>🏢 طلب خدمة تجارية</h3>
+                <p class="muted">تأسيس شركات، سجلات تجارية، رخص بلدية</p>
+              </div>
+              <form id="commercialForm" class="form">
+                <div class="form-grid-2">
+                  <label>اسم صاحب العمل
+                    <input type="text" id="commName" required />
+                  </label>
+                  <label>رقم الجوال
+                    <input type="tel" id="commPhone" placeholder="05xxxxxxxx" required />
+                  </label>
+                </div>
+                <label>نوع الخدمة التجارية
+                  <select id="commService" required>
+                    <option value="">اختر الخدمة</option>
+                    <option value="تأسيس شركة">تأسيس شركة</option>
+                    <option value="تجديد سجل تجاري">تجديد سجل تجاري</option>
+                    <option value="ترخيص بلدية">ترخيص بلدية</option>
+                    <option value="فتح فرع جديد">فتح فرع جديد</option>
+                    <option value="تعديل بيانات تجارية">تعديل بيانات تجارية</option>
+                    <option value="إلغاء سجل تجاري">إلغاء سجل تجاري</option>
+                    <option value="أخرى">أخرى</option>
+                  </select>
+                </label>
+                <label>اسم المنشأة (إن وجد)
+                  <input type="text" id="commBusiness" placeholder="اسم الشركة أو المؤسسة" />
+                </label>
+                <label>ملاحظات
+                  <textarea id="commNotes" rows="3" placeholder="تفاصيل إضافية"></textarea>
+                </label>
+                <button type="submit" class="btn primary full-w">🏢 إرسال طلب الخدمة التجارية</button>
+                <div id="commSuccess" class="msg success hidden"></div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Panel 5: Admin Login -->
           <div class="auth-panel hidden" id="adminPanel">
             <div class="auth-card" style="max-width:420px;margin:0 auto">
               <div class="auth-card-header center-text">
@@ -288,17 +494,19 @@
       </div>
     </section>
 
-    <!-- ── 6. CONTACT ── -->
+    <!-- ── 9. CONTACT ── -->
     <section class="contact-section">
       <div class="section-container center-text">
         <h2 class="section-title">تواصل معنا</h2>
-        <p class="muted">لأي استفسار أو طلب خاص، لا تتردد في التواصل</p>
+        <p class="muted">لأي استفسار أو طلب خاص، فريقنا متاح لخدمتك على مدار الساعة</p>
         <div class="contact-btns">
-          <a href="https://wa.me/966502049200" target="_blank" class="btn wa-btn hero-btn">📱 واتساب</a>
-          <a href="tel:+966502049200" class="btn glass hero-btn">📞 اتصال</a>
+          <a href="https://wa.me/966502049200?text=مرحباً، أحتاج مساعدة من منصة 2169" target="_blank"
+            class="btn wa-btn hero-btn shine-effect">📱 واتساب مباشر</a>
+          <a href="tel:+966502049200" class="btn glass hero-btn">📞 اتصال: 0502049200</a>
         </div>
       </div>
     </section>
+
 
   </main>
 

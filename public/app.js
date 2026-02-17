@@ -91,10 +91,12 @@ $("logoutBtn").addEventListener("click", function () {
     showLogin();
 });
 
-// ── Auth Tabs (Landing page - 3 tabs) ──
+// ── Auth Tabs (Landing page - 5 tabs) ──
 var authTabs = [
     { btn: "tabClient", panel: "clientPanel" },
     { btn: "tabNewRequest", panel: "requestPanel" },
+    { btn: "tabQuote", panel: "quotePanel" },
+    { btn: "tabCommercial", panel: "commercialPanel" },
     { btn: "tabAdmin", panel: "adminPanel" }
 ];
 
@@ -115,6 +117,137 @@ authTabs.forEach(function (tab) {
         if (panel) panel.classList.remove("hidden");
     });
 });
+
+// ── Animated Counter (Intersection Observer) ──
+var countersAnimated = false;
+function animateCounters() {
+    if (countersAnimated) return;
+    countersAnimated = true;
+    document.querySelectorAll('.achieve-num[data-count]').forEach(function (el) {
+        var target = parseFloat(el.getAttribute('data-count'));
+        var isDecimal = el.getAttribute('data-decimal') === 'true';
+        var current = 0;
+        var step = target / 60;
+        var timer = setInterval(function () {
+            current += step;
+            if (current >= target) {
+                current = target;
+                clearInterval(timer);
+            }
+            el.textContent = '+' + (isDecimal ? current.toFixed(1) : Math.floor(current));
+        }, 25);
+    });
+    // Animate progress bars
+    document.querySelectorAll('.achieve-bar-fill').forEach(function (bar) {
+        var w = bar.style.width;
+        bar.style.width = '0%';
+        setTimeout(function () { bar.style.width = w; }, 200);
+    });
+}
+var achieveSection = document.querySelector('.achievements-section');
+if (achieveSection && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting) animateCounters();
+    }, { threshold: 0.3 }).observe(achieveSection);
+} else if (achieveSection) {
+    animateCounters();
+}
+
+// ── Tracking Form ──
+var trackForm = $("trackForm");
+if (trackForm) {
+    trackForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        var num = $("trackNumber").value.trim();
+        var phone = $("trackPhone").value.trim();
+        var resultEl = $("trackResult");
+        try {
+            var res = await fetch(API + "/api/client/txn?number=" + encodeURIComponent(num) + "&phone=" + encodeURIComponent(phone));
+            var data = await res.json();
+            if (!data.ok) throw new Error(data.error || "المعاملة غير موجودة");
+            var t = data.txn;
+            resultEl.innerHTML = '<div style="text-align:right">' +
+                '<h3 style="color:var(--accent);margin-bottom:12px">📋 ' + t.number + '</h3>' +
+                '<p><strong>العنوان:</strong> ' + t.title + '</p>' +
+                '<p><strong>الحالة:</strong> <span class="status-badge ' + t.status + '">' + t.status + '</span></p>' +
+                '<p><strong>آخر تحديث:</strong> ' + (t.updatedAt || t.createdAt) + '</p>' +
+                (t.notes ? '<p><strong>ملاحظات:</strong> ' + t.notes + '</p>' : '') +
+                '</div>';
+            resultEl.classList.remove("hidden");
+        } catch (err) {
+            resultEl.innerHTML = '<p style="color:var(--red);text-align:center">❌ ' + err.message + '</p>';
+            resultEl.classList.remove("hidden");
+        }
+    });
+}
+
+// ── Send Track Link via WhatsApp ──
+var sendTrackBtn = $("sendTrackLinkBtn");
+if (sendTrackBtn) {
+    sendTrackBtn.addEventListener("click", function () {
+        var num = $("trackNumber").value.trim();
+        var phone = $("trackPhone").value.trim();
+        if (!num || !phone) { showToast("أدخل رقم المعاملة ورقم الجوال أولاً"); return; }
+        var trackUrl = window.location.origin + "/track/" + encodeURIComponent(num);
+        var waMsg = "مرحباً، رابط تتبع معاملتك رقم " + num + " في منصة 2169:\n" + trackUrl;
+        var waPhone = phone.replace(/^0/, "966");
+        window.open("https://wa.me/" + waPhone + "?text=" + encodeURIComponent(waMsg), "_blank");
+    });
+}
+
+// ── Price Quote Form ──
+var quoteForm = $("quoteForm");
+if (quoteForm) {
+    quoteForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        var name = $("quoteName").value.trim();
+        var phone = $("quotePhone").value.trim();
+        var service = $("quoteService").value;
+        var desc = $("quoteDesc").value.trim();
+        try {
+            await api("POST", "/api/client/register", { name: name, phone: phone, email: "" });
+            var waMsg = "طلب عرض سعر جديد من منصة 2169:\n\n" +
+                "الاسم: " + name + "\n" +
+                "الجوال: " + phone + "\n" +
+                "الخدمة: " + service + "\n" +
+                (desc ? "التفاصيل: " + desc : "");
+            window.open("https://wa.me/966502049200?text=" + encodeURIComponent(waMsg), "_blank");
+            $("quoteSuccess").textContent = "✅ تم إرسال طلب عرض السعر! سنتواصل معك قريباً";
+            $("quoteSuccess").classList.remove("hidden");
+            quoteForm.reset();
+        } catch (err) {
+            showToast("خطأ: " + err.message);
+        }
+    });
+}
+
+// ── Commercial Service Form ──
+var commForm = $("commercialForm");
+if (commForm) {
+    commForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        var name = $("commName").value.trim();
+        var phone = $("commPhone").value.trim();
+        var service = $("commService").value;
+        var business = $("commBusiness").value.trim();
+        var notes = $("commNotes").value.trim();
+        try {
+            await api("POST", "/api/client/register", { name: name, phone: phone, email: "" });
+            var waMsg = "طلب خدمة تجارية من منصة 2169:\n\n" +
+                "الاسم: " + name + "\n" +
+                "الجوال: " + phone + "\n" +
+                "الخدمة: " + service + "\n" +
+                (business ? "المنشأة: " + business + "\n" : "") +
+                (notes ? "ملاحظات: " + notes : "");
+            window.open("https://wa.me/966502049200?text=" + encodeURIComponent(waMsg), "_blank");
+            $("commSuccess").textContent = "✅ تم إرسال طلب الخدمة التجارية! سنتواصل معك قريباً";
+            $("commSuccess").classList.remove("hidden");
+            commForm.reset();
+        } catch (err) {
+            showToast("خطأ: " + err.message);
+        }
+    });
+}
 
 // ── Hero Search Bar ──
 var heroSearchForm = $("heroSearchForm");
