@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>متابعة المعاملات - متعب العنزي</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg"></div>
+    <header class="site-header">
+      <div class="logo">
+        <div class="logo-mark">م</div>
+        <div class="logo-text">
+          <div class="brand">متعب العنزي</div>
+          <div class="tagline">منصة متابعة حالة المعاملة</div>
+        </div>
+      </div>
+      <button id="logoutBtn" class="btn ghost hidden">تسجيل الخروج</button>
+    </header>
+
+    <main class="container">
+      <section id="loginView" class="card">
+        <h1>تسجيل الدخول</h1>
+        <p class="muted">اختر نوع الدخول المناسب.</p>
+        <div class="tabs">
+          <button id="tabAdmin" class="tab icon-tab" type="button" aria-label="دخول الإدارة">
+            <span class="icon-lock" aria-hidden="true"></span>
+          </button>
+          <button id="tabClient" class="tab active" type="button">استعلام عميل</button>
+        </div>
+
+        <div id="adminPanel" class="hidden">
+          <p class="muted">لوحة إدارة المعاملات للموظفين والمشرف.</p>
+          <form id="loginForm" class="form">
+            <label>
+            اسم المستخدم
+            <input type="text" id="loginUsername" autocomplete="username" required />
+          </label>
+          <label>
+            كلمة المرور
+            <input type="password" id="loginPassword" autocomplete="current-password" required />
+          </label>
+          <button type="submit" class="btn primary">دخول</button>
+          <div id="loginError" class="error hidden">تعذر تسجيل الدخول.</div>
+          </form>
+
+        </div>
+
+        <div id="clientPanel">
+          <h2 class="subhead">استعلام حالة المعاملة</h2>
+          <form id="clientForm" class="form">
+            <label>
+              رقم المعاملة
+              <input type="text" id="clientTxnNumber" required />
+            </label>
+            <label>
+              رقم الجوال
+              <input type="tel" id="clientPhone" autocomplete="tel" placeholder="05xxxxxxxx" required />
+            </label>
+            <button type="submit" class="btn primary">استعلام</button>
+            <div id="clientError" class="error hidden">لا توجد معاملة مطابقة.</div>
+          </form>
+          <div id="clientResult" class="result hidden"></div>
+
+          <div class="divider"></div>
+
+          <h2 class="subhead">طلب معاملة جديدة</h2>
+          <form id="requestForm" class="form">
+            <label>
+              الاسم الكامل
+              <input type="text" id="reqName" autocomplete="name" required />
+            </label>
+            <label>
+              رقم الجوال
+              <input type="tel" id="reqPhone" autocomplete="tel" placeholder="05xxxxxxxx" required />
+            </label>
+            <label>
+              نوع الخدمة المطلوبة
+              <input type="text" id="reqService" required />
+            </label>
+            <label>
+              ملاحظات
+              <textarea id="reqNotes" rows="3" placeholder="تفاصيل إضافية إن وجدت"></textarea>
+            </label>
+            <button type="submit" class="btn ghost">إرسال الطلب</button>
+            <div id="requestSuccess" class="success hidden">تم استلام طلبك وسيتم إرسال عرض السعر.</div>
+          </form>
+        </div>
+
+        <div class="hint">
+          دخول الإدارة مخصص للموظفين فقط.
+        </div>
+      </section>
+
+      <section id="dashboardView" class="hidden">
+        <div class="split">
+          <div class="card">
+            <h2>إضافة معاملة</h2>
+            <form id="txnForm" class="form">
+              <label>
+                رقم المعاملة
+                <input type="text" id="txnNumber" required />
+              </label>
+              <label>
+                اسم العميل
+                <input type="text" id="clientName" required />
+              </label>
+              <label>
+                رقم جوال العميل
+                <input type="tel" id="clientPhoneInput" placeholder="05xxxxxxxx" required />
+              </label>
+              <label>
+                نوع الخدمة
+                <input type="text" id="serviceType" placeholder="مثال: إصدار ترخيص صناعي" required />
+              </label>
+              <label>
+                الحالة
+                <select id="status" required>
+                  <option value="جديد">جديد</option>
+                  <option value="بانتظار عرض السعر">بانتظار عرض السعر</option>
+                  <option value="بانتظار الدفع">بانتظار الدفع</option>
+                  <option value="بانتظار زيارة الوزارة">بانتظار زيارة الوزارة</option>
+                  <option value="تمت الموافقة">تمت الموافقة</option>
+                  <option value="مرفوض">مرفوض</option>
+                  <option value="مغلق">مغلق</option>
+                </select>
+              </label>
+              <label>
+                ملاحظات
+                <textarea id="notes" rows="3" placeholder="أي تفاصيل إضافية"></textarea>
+              </label>
+              <label>
+                عرض السعر
+                <input type="text" id="quote" placeholder="مثال: 1500 ريال" />
+              </label>
+              <label>
+                طريقة الدفع
+                <input type="text" id="payment" placeholder="مثال: تحويل بنكي / شبكة" />
+              </label>
+              <button type="submit" class="btn primary">حفظ المعاملة</button>
+            </form>
+          </div>
+
+          <div class="card">
+            <h2>بحث ومتابعة</h2>
+            <div class="toolbar">
+              <input type="text" id="search" placeholder="ابحث برقم المعاملة أو اسم العميل" />
+              <select id="filterStatus">
+                <option value="">كل الحالات</option>
+                <option value="جديد">جديد</option>
+                <option value="بانتظار عرض السعر">بانتظار عرض السعر</option>
+                <option value="بانتظار الدفع">بانتظار الدفع</option>
+                <option value="بانتظار زيارة الوزارة">بانتظار زيارة الوزارة</option>
+                <option value="تمت الموافقة">تمت الموافقة</option>
+                <option value="مرفوض">مرفوض</option>
+                <option value="مغلق">مغلق</option>
+              </select>
+            </div>
+            <div id="txnList" class="list"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <template id="txnItemTemplate">
+        <div class="txn">
+          <div class="txn-main">
+            <div class="txn-title"></div>
+            <div class="txn-meta"></div>
+            <div class="txn-notes"></div>
+            <div class="txn-extra"></div>
+          </div>
+          <div class="txn-actions">
+            <select class="status-select">
+              <option value="جديد">جديد</option>
+              <option value="بانتظار عرض السعر">بانتظار عرض السعر</option>
+              <option value="بانتظار الدفع">بانتظار الدفع</option>
+              <option value="بانتظار زيارة الوزارة">بانتظار زيارة الوزارة</option>
+              <option value="تمت الموافقة">تمت الموافقة</option>
+              <option value="مرفوض">مرفوض</option>
+              <option value="مغلق">مغلق</option>
+            </select>
+            <input class="quote-input" type="text" placeholder="عرض السعر" />
+            <input class="payment-input" type="text" placeholder="طريقة الدفع" />
+            <button class="btn primary small update-btn">تحديث</button>
+            <button class="btn danger small delete-btn">حذف</button>
+          </div>
+        </div>
+    </template>
+
+    <footer class="site-footer">
+      جميع الحقوق محفوظة © متعب العنزي
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>

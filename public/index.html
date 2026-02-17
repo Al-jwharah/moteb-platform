@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>متابعة المعاملات - متعب العنزي</title>
+  <meta name="description" content="منصة متابعة وإدارة المعاملات - متعب العنزي" />
+  <link rel="icon" href="/logo.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+
+<body>
+
+  <!-- Background Effects -->
+  <div class="bg-effects">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- ═══════ HEADER ═══════ -->
+  <header class="site-header">
+    <div class="logo">
+      <img src="/logo.png" alt="شعار" class="logo-img" />
+      <div class="logo-text">
+        <div class="brand">متعب العنزي</div>
+        <div class="tagline">منصة متابعة حالة المعاملة</div>
+      </div>
+    </div>
+    <div class="header-actions hidden" id="headerActions">
+      <button id="notifBtn" class="icon-btn" title="الإشعارات">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" />
+          <path d="M13.73 21a2 2 0 01-3.46 0" />
+        </svg>
+        <span id="notifBadge" class="badge hidden">0</span>
+      </button>
+      <div class="user-chip" id="userChip">
+        <span id="userName"></span>
+      </div>
+      <button id="logoutBtn" class="btn outline small">خروج</button>
+    </div>
+  </header>
+
+  <!-- ═══════ NOTIFICATIONS PANEL ═══════ -->
+  <div id="notifDrawer" class="drawer hidden">
+    <div class="drawer-header">
+      <h3>الإشعارات</h3>
+      <button id="markAllReadBtn" class="btn-text">قراءة الكل</button>
+      <button id="closeDrawer" class="btn-text" style="color:var(--red)">✕</button>
+    </div>
+    <div id="notifList" class="notif-list"></div>
+  </div>
+  <div id="overlay" class="overlay hidden"></div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- ═══════    LOGIN VIEW       ═══════ -->
+  <!-- ═══════════════════════════════════ -->
+  <main class="container" id="loginView">
+    <section class="hero-card">
+      <div class="hero-icon">
+        <img src="/logo.png" alt="" class="hero-logo" />
+      </div>
+      <h1>أهلاً بك</h1>
+      <p class="muted center-text">اختر ما تريد القيام به</p>
+
+      <div class="tabs pill-tabs">
+        <button id="tabClient" class="tab active" type="button">استعلام عميل</button>
+        <button id="tabAdmin" class="tab" type="button">دخول الإدارة</button>
+      </div>
+
+      <!-- ── Client Panel ── -->
+      <div id="clientPanel">
+        <div class="section-block">
+          <h2 class="subhead">🔍 استعلام حالة المعاملة</h2>
+          <form id="clientForm" class="form">
+            <label>رقم المعاملة
+              <input type="text" id="clientTxnNumber" required />
+            </label>
+            <label>رقم الجوال
+              <input type="tel" id="clientPhone" placeholder="05xxxxxxxx" required />
+            </label>
+            <button type="submit" class="btn primary full-w">استعلام</button>
+            <div id="clientError" class="msg error hidden"></div>
+          </form>
+          <div id="clientResult" class="result-card hidden"></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section-block">
+          <h2 class="subhead">📋 طلب معاملة جديدة</h2>
+          <form id="requestForm" class="form">
+            <label>الاسم الكامل
+              <input type="text" id="reqName" required />
+            </label>
+            <label>رقم الجوال
+              <input type="tel" id="reqPhone" placeholder="05xxxxxxxx" required />
+            </label>
+            <label>نوع الخدمة المطلوبة
+              <input type="text" id="reqService" required />
+            </label>
+            <label>ملاحظات
+              <textarea id="reqNotes" rows="3" placeholder="تفاصيل إضافية إن وجدت"></textarea>
+            </label>
+            <button type="submit" class="btn outline full-w">إرسال الطلب</button>
+            <div id="requestSuccess" class="msg success hidden"></div>
+          </form>
+        </div>
+      </div>
+
+      <!-- ── Admin Login Panel ── -->
+      <div id="adminPanel" class="hidden">
+        <div class="admin-lock-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5">
+            <rect x="3" y="11" width="18" height="11" rx="2" />
+            <path d="M7 11V7a5 5 0 0110 0v4" />
+            <circle cx="12" cy="16" r="1" />
+          </svg>
+        </div>
+        <form id="loginForm" class="form" style="max-width:340px;margin:0 auto">
+          <label>اسم المستخدم
+            <input type="text" id="loginUsername" autocomplete="username" required />
+          </label>
+          <label>كلمة المرور
+            <input type="password" id="loginPassword" autocomplete="current-password" required />
+          </label>
+          <button type="submit" class="btn primary full-w">دخول</button>
+          <div id="loginError" class="msg error hidden"></div>
+        </form>
+      </div>
+
+      <div class="hint center-text">دخول الإدارة مخصص للموظفين فقط.</div>
+    </section>
+  </main>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- ═══════   DASHBOARD VIEW    ═══════ -->
+  <!-- ═══════════════════════════════════ -->
+  <main class="container hidden" id="dashboardView">
+
+    <!-- Navigation Tabs -->
+    <nav class="dash-nav">
+      <button class="nav-tab active" data-view="stats">📊 الإحصائيات</button>
+      <button class="nav-tab" data-view="txns">📄 المعاملات</button>
+      <button class="nav-tab" data-view="addTxn">➕ إضافة معاملة</button>
+      <button class="nav-tab" data-view="messages">📱 الرسائل</button>
+      <button class="nav-tab" data-view="reports">📊 التقارير</button>
+      <button class="nav-tab" data-view="audit">🕐 السجل</button>
+      <button class="nav-tab" data-view="users" id="usersNavTab">👥 المستخدمين</button>
+      <button class="nav-tab" data-view="settings" id="settingsNavTab">⚙️ الإعدادات</button>
+    </nav>
+
+    <!-- ═══ STATS PAGE ═══ -->
+    <section id="page-stats" class="dash-page">
+      <div class="stats-grid">
+        <div class="stat-card accent">
+          <div class="stat-value" id="statTotal">0</div>
+          <div class="stat-label">إجمالي المعاملات</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-value" id="statWeek">0</div>
+          <div class="stat-label">هذا الأسبوع</div>
+        </div>
+        <div class="stat-card warn">
+          <div class="stat-value" id="statPending">0</div>
+          <div class="stat-label">قيد الانتظار</div>
+        </div>
+        <div class="stat-card blue">
+          <div class="stat-value" id="statDone">0</div>
+          <div class="stat-label">مكتملة</div>
+        </div>
+      </div>
+
+      <div class="card mt">
+        <div class="card-header">
+          <h2>توزيع الحالات</h2>
+        </div>
+        <div id="statusChart" class="chart-bars">
+          <div class="empty-msg">لا توجد بيانات بعد</div>
+        </div>
+      </div>
+
+      <div class="card mt">
+        <div class="card-header">
+          <h2>أكثر الخدمات طلباً</h2>
+        </div>
+        <div id="servicesChart" class="chart-bars">
+          <div class="empty-msg">لا توجد بيانات بعد</div>
+        </div>
+      </div>
+
+      <div class="card mt">
+        <div class="card-header">
+          <h2>🤖 تحليل ذكي بالذكاء الاصطناعي</h2>
+          <button id="aiSummarizeBtn" class="btn primary small">تحليل</button>
+        </div>
+        <div id="aiSummary" class="ai-summary muted">اضغط "تحليل" لتحصل على تقرير ذكي عن معاملاتك.</div>
+      </div>
+
+      <div class="actions-row mt">
+        <button id="exportCsvBtn" class="btn outline">📥 تصدير CSV</button>
+      </div>
+    </section>
+
+    <!-- ═══ TRANSACTIONS PAGE ═══ -->
+    <section id="page-txns" class="dash-page hidden">
+      <div class="card">
+        <h2>المعاملات</h2>
+        <div class="toolbar">
+          <input type="text" id="search" placeholder="ابحث برقم المعاملة أو اسم العميل..." />
+          <select id="filterStatus">
+            <option value="">كل الحالات</option>
+            <option value="جديد">جديد</option>
+            <option value="بانتظار عرض السعر">بانتظار عرض السعر</option>
+            <option value="بانتظار الدفع">بانتظار الدفع</option>
+            <option value="بانتظار زيارة الوزارة">بانتظار زيارة الوزارة</option>
+            <option value="تمت الموافقة">تمت الموافقة</option>
+            <option value="مرفوض">مرفوض</option>
+            <option value="مغلق">مغلق</option>
+          </select>
+        </div>
+        <div id="txnList" class="txn-list">
+          <div class="empty-msg">لا توجد معاملات.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ ADD TRANSACTION PAGE ═══ -->
+    <section id="page-addTxn" class="dash-page hidden">
+      <div class="card">
+        <h2>إضافة معاملة جديدة</h2>
+        <form id="txnForm" class="form">
+          <div class="form-grid">
+            <label>رقم المعاملة
+              <input type="text" id="txnNumber" placeholder="اتركه فارغاً للإنشاء تلقائي" />
+            </label>
+            <label>اسم العميل
+              <input type="text" id="clientName" required />
+            </label>
+            <label>رقم جوال العميل
+              <input type="tel" id="clientPhoneInput" placeholder="05xxxxxxxx" required />
+            </label>
+            <label>نوع الخدمة
+              <input type="text" id="serviceType" placeholder="مثال: إصدار ترخيص صناعي" required />
+            </label>
+            <label>الحالة
+              <select id="status" required>
+                <option value="جديد">جديد</option>
+                <option value="بانتظار عرض السعر">بانتظار عرض السعر</option>
+                <option value="بانتظار الدفع">بانتظار الدفع</option>
+                <option value="بانتظار زيارة الوزارة">بانتظار زيارة الوزارة</option>
+                <option value="تمت الموافقة">تمت الموافقة</option>
+                <option value="مرفوض">مرفوض</option>
+                <option value="مغلق">مغلق</option>
+              </select>
+            </label>
+            <label>عرض السعر
+              <input type="text" id="quote" placeholder="مثال: 1500 ريال" />
+            </label>
+            <label>طريقة الدفع
+              <input type="text" id="payment" placeholder="مثال: تحويل بنكي" />
+            </label>
+          </div>
+          <label>ملاحظات
+            <textarea id="notes" rows="3" placeholder="أي تفاصيل إضافية"></textarea>
+          </label>
+          <label>مرفقات
+            <input type="file" id="attachmentInput" multiple />
+            <div id="attachmentsList" class="attachments-preview"></div>
+          </label>
+          <button type="submit" class="btn primary full-w">حفظ المعاملة</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ═══ AUDIT PAGE ═══ -->
+    <section id="page-audit" class="dash-page hidden">
+      <div class="card">
+        <h2>🕐 سجل التعديلات</h2>
+        <div id="auditList" class="audit-list">
+          <div class="empty-msg">لا توجد تعديلات بعد.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ USERS PAGE ═══ -->
+    <section id="page-users" class="dash-page hidden">
+      <div class="card">
+        <h2>👥 إدارة المستخدمين</h2>
+        <form id="addUserForm" class="form form-inline-row">
+          <input type="text" id="newUsername" placeholder="اسم المستخدم" required />
+          <input type="password" id="newPassword" placeholder="كلمة المرور" required />
+          <input type="text" id="newFullName" placeholder="الاسم الكامل" required />
+          <select id="newRole">
+            <option value="employee">موظف</option>
+            <option value="admin">مشرف</option>
+          </select>
+          <button type="submit" class="btn primary">إضافة</button>
+        </form>
+        <div id="usersList" class="users-list mt">
+          <div class="empty-msg">جاري التحميل...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ MESSAGES PAGE ═══ -->
+    <section id="page-messages" class="dash-page hidden">
+      <div class="card">
+        <div class="card-header">
+          <h2>📱 رسائل الواتساب</h2>
+        </div>
+
+        <div class="section-block">
+          <h3 class="subhead">📢 إرسال رسائل جماعية</h3>
+          <p class="muted">إرسال تحديث لجميع العملاء حسب حالة المعاملة</p>
+          <div class="bulk-wa-row">
+            <select id="bulkStatus">
+              <option value="">اختر الحالة...</option>
+              <option value="جديد">جديد</option>
+              <option value="بانتظار عرض السعر">بانتظار عرض السعر</option>
+              <option value="بانتظار الدفع">بانتظار الدفع</option>
+              <option value="بانتظار زيارة الوزارة">بانتظار زيارة الوزارة</option>
+              <option value="تمت الموافقة">تمت الموافقة</option>
+              <option value="مرفوض">مرفوض</option>
+            </select>
+            <select id="bulkTemplate">
+              <option value="status">قالب تحديث الحالة</option>
+              <option value="payment">قالب طلب الدفع</option>
+              <option value="reminder">قالب تذكير</option>
+            </select>
+            <button id="bulkWaBtn" class="btn primary">📢 إرسال جماعي</button>
+          </div>
+          <div id="bulkResults" class="bulk-results hidden"></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section-block">
+          <h3 class="subhead">📋 سجل الرسائل المرسلة</h3>
+          <div id="messageLog" class="message-log">
+            <div class="empty-msg">جاري التحميل...</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ REPORTS PAGE ═══ -->
+    <section id="page-reports" class="dash-page hidden">
+      <div class="card">
+        <div class="card-header">
+          <h2>📊 التقارير اليومية</h2>
+          <div class="report-date-row">
+            <input type="date" id="reportDate" />
+            <button class="btn primary small" id="loadReportBtn">عرض التقرير</button>
+          </div>
+        </div>
+
+        <div class="report-stats-grid" id="reportStats">
+          <div class="report-stat">
+            <div class="report-stat-value" id="rpNew">0</div>
+            <div class="report-stat-label">معاملات جديدة</div>
+          </div>
+          <div class="report-stat">
+            <div class="report-stat-value" id="rpUpdated">0</div>
+            <div class="report-stat-label">تم تحديثها</div>
+          </div>
+          <div class="report-stat">
+            <div class="report-stat-value" id="rpCompleted">0</div>
+            <div class="report-stat-label">مكتملة</div>
+          </div>
+          <div class="report-stat">
+            <div class="report-stat-value" id="rpMessages">0</div>
+            <div class="report-stat-label">رسائل مرسلة</div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h3 class="subhead">معاملات اليوم</h3>
+        <div id="reportTxnList" class="txn-list">
+          <div class="empty-msg">اختر تاريخاً لعرض التقرير</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ SETTINGS PAGE ═══ -->
+    <section id="page-settings" class="dash-page hidden">
+      <div class="card">
+        <h2>⚙️ إعدادات المنصة</h2>
+        <form id="settingsForm" class="form">
+          <label>اسم المنصة
+            <input type="text" id="settPlatformName" placeholder="معاملات متعب العنزي" />
+          </label>
+          <label>رقم التواصل
+            <input type="tel" id="settContactPhone" placeholder="05xxxxxxxx" />
+          </label>
+
+          <div class="divider"></div>
+          <h3 class="subhead">📝 قوالب رسائل الواتساب</h3>
+          <p class="muted">المتغيرات المتاحة: {client} {number} {status} {quote} {payment} {link} {platform}</p>
+
+          <label>قالب تحديث الحالة
+            <textarea id="settTemplateStatus" rows="4"></textarea>
+          </label>
+          <label>قالب طلب الدفع
+            <textarea id="settTemplatePayment" rows="4"></textarea>
+          </label>
+          <label>قالب تذكير
+            <textarea id="settTemplateReminder" rows="4"></textarea>
+          </label>
+
+          <button type="submit" class="btn primary full-w">💾 حفظ الإعدادات</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════ TRANSACTION DETAIL MODAL ═══════ -->
+  <div id="txnModal" class="modal hidden">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">تفاصيل المعاملة</h2>
+        <button id="modalClose" class="modal-close">&times;</button>
+      </div>
+      <div id="modalBody" class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- ═══════ AI CHATBOT FAB ═══════ -->
+  <button id="chatFab" class="chat-fab" title="المساعد الذكي">
+    <svg width="28" height="28" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+      <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+    </svg>
+  </button>
+
+  <div id="chatPanel" class="chat-panel hidden">
+    <div class="chat-header">
+      <span>🤖 المساعد الذكي</span>
+      <button id="chatClose" class="chat-close">&times;</button>
+    </div>
+    <div id="chatMessages" class="chat-messages">
+      <div class="chat-bubble bot">أهلاً! أنا المساعد الذكي لمنصة متعب العنزي. كيف أقدر أساعدك؟ 😊</div>
+    </div>
+    <form id="chatForm" class="chat-input-row">
+      <input type="text" id="chatInput" placeholder="اكتب سؤالك..." autocomplete="off" />
+      <button type="submit" class="btn primary small">إرسال</button>
+    </form>
+  </div>
+
+  <!-- ═══════ TRACKING VIEW (Public) ═══════ -->
+  <main class="container hidden" id="trackingView">
+    <section class="hero-card">
+      <div class="hero-icon">
+        <img src="/logo.png" alt="" class="hero-logo" />
+      </div>
+      <h1>📍 متابعة المعاملة</h1>
+      <div id="trackingContent">
+        <div class="empty-msg">⏳ جاري تحميل بيانات المعاملة...</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ═══════ TOAST ═══════ -->
+  <div id="toast" class="toast hidden"></div>
+
+  <!-- ═══════ FOOTER ═══════ -->
+  <footer class="site-footer">
+    <img src="/logo.png" alt="" class="footer-logo" />
+    <span>جميع الحقوق محفوظة &copy; متعب العنزي</span>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+
+</html>
