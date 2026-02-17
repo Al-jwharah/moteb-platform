@@ -2649,3 +2649,259 @@ select:focus {
     padding: 10px 12px;
   }
 }
+
+/* ══════════════════════════════════════════
+   DUAL LOGOS IN HEADER
+   ══════════════════════════════════════════ */
+.logo-secondary {
+  max-height: 38px;
+  margin-right: 4px;
+  opacity: 0.85;
+}
+
+/* ══════════════════════════════════════════
+   HOW IT WORKS SECTION
+   ══════════════════════════════════════════ */
+.how-section {
+  padding: 70px 0;
+}
+
+.how-steps {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
+
+.how-step {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px 24px;
+  max-width: 220px;
+  text-align: center;
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+}
+
+.how-step:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(99, 102, 241, 0.2);
+  border-color: var(--accent);
+}
+
+.how-step-num {
+  position: absolute;
+  top: -14px;
+  right: 50%;
+  transform: translateX(50%);
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 15px;
+}
+
+.how-step-icon {
+  font-size: 42px;
+  margin-bottom: 12px;
+}
+
+.how-step h3 {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: var(--accent);
+}
+
+.how-step p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.how-step-arrow {
+  font-size: 28px;
+  color: var(--accent);
+  margin: 40px 12px 0;
+  font-weight: 700;
+  opacity: 0.5;
+}
+
+/* ══════════════════════════════════════════
+   FAQ ACCORDION
+   ══════════════════════════════════════════ */
+.faq-section {
+  padding: 70px 0;
+}
+
+.faq-list {
+  max-width: 700px;
+  margin: 24px auto 0;
+}
+
+.faq-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.faq-item:hover {
+  border-color: var(--accent);
+}
+
+.faq-item.open {
+  border-color: var(--accent);
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.12);
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 18px 22px;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
+  text-align: right;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.faq-question:hover {
+  color: var(--accent);
+}
+
+.faq-arrow {
+  font-size: 12px;
+  transition: transform 0.3s;
+  margin-right: auto;
+  margin-left: 12px;
+}
+
+.faq-item.open .faq-arrow {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s ease;
+  padding: 0 22px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text-secondary);
+}
+
+.faq-item.open .faq-answer {
+  max-height: 300px;
+  padding: 0 22px 18px;
+}
+
+/* ══════════════════════════════════════════
+   CTA BANNER
+   ══════════════════════════════════════════ */
+.cta-section {
+  padding: 60px 0;
+}
+
+.cta-card {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(139, 92, 246, 0.12));
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: 24px;
+  padding: 48px 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 50%);
+  animation: ctaGlow 6s ease-in-out infinite;
+}
+
+@keyframes ctaGlow {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(10%, 10%);
+  }
+}
+
+.cta-logo {
+  width: 100px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.cta-card h2 {
+  font-size: 28px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cta-card p {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+.cta-btns {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE: NEW SECTIONS
+   ══════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .how-steps {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .how-step-arrow {
+    transform: rotate(90deg);
+    margin: 0;
+  }
+
+  .how-step {
+    max-width: 280px;
+    width: 100%;
+  }
+
+  .cta-card h2 {
+    font-size: 22px;
+  }
+
+  .logo-secondary {
+    display: none;
+  }
+}

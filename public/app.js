@@ -248,6 +248,17 @@ if (commForm) {
         }
     });
 }
+// ── FAQ Accordion ──
+document.querySelectorAll('.faq-question').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+        var item = btn.parentElement;
+        var isOpen = item.classList.contains('open');
+        // Close all
+        document.querySelectorAll('.faq-item').forEach(function (fi) { fi.classList.remove('open'); });
+        // Open clicked if it was closed
+        if (!isOpen) item.classList.add('open');
+    });
+});
 
 // ── Hero Search Bar ──
 var heroSearchForm = $("heroSearchForm");
