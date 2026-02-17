@@ -61,7 +61,7 @@
   <!-- ═══════════════════════════════════ -->
   <main class="landing" id="loginView">
 
-    <!-- ── HERO Section ── -->
+    <!-- ── 1. HERO: Logo + Search ── -->
     <section class="hero-section">
       <div class="hero-particles">
         <div class="particle p1"></div>
@@ -71,53 +71,59 @@
         <div class="particle p5"></div>
         <div class="particle p6"></div>
       </div>
-      <div class="hero-content">
-        <div class="hero-badge">🏆 منصة معتمدة وموثوقة</div>
+      <div class="hero-center">
+        <img src="/logo.png" alt="شعار منصة متعب العنزي" class="hero-main-logo" />
         <h1 class="hero-title">
           <span class="hero-gradient-text">منصة متعب العنزي</span>
-          <br />لإدارة المعاملات الحكومية
         </h1>
-        <p class="hero-desc">نقدم لك خدمات إلكترونية متكاملة لإنجاز معاملاتك الحكومية بكل سهولة وسرعة، مع متابعة لحظية
-          لحالة معاملتك عبر الذكاء الاصطناعي</p>
-        <div class="hero-btns">
+        <p class="hero-tagline">لإدارة ومتابعة المعاملات الحكومية</p>
+
+        <!-- Search Bar -->
+        <div class="hero-search-box">
+          <form id="heroSearchForm" class="hero-search-form">
+            <input type="text" id="heroSearchInput" placeholder="ابحث برقم المعاملة..." autocomplete="off" />
+            <button type="submit" class="hero-search-btn">🔍 بحث</button>
+          </form>
+          <div id="heroSearchResult" class="hero-search-result hidden"></div>
+        </div>
+
+        <div class="hero-nav-btns">
           <a href="#services" class="btn primary hero-btn">🚀 خدماتنا</a>
           <a href="#loginSection" class="btn glass hero-btn">🔐 دخول المنصة</a>
-        </div>
-        <div class="hero-stats-row">
-          <div class="hero-stat-item">
-            <span class="hero-stat-num" id="heroTotal">+500</span>
-            <span class="hero-stat-lbl">معاملة منجزة</span>
-          </div>
-          <div class="hero-stat-divider"></div>
-          <div class="hero-stat-item">
-            <span class="hero-stat-num">⭐ 4.9</span>
-            <span class="hero-stat-lbl">تقييم العملاء</span>
-          </div>
-          <div class="hero-stat-divider"></div>
-          <div class="hero-stat-item">
-            <span class="hero-stat-num">🕐 24/7</span>
-            <span class="hero-stat-lbl">متابعة مستمرة</span>
-          </div>
-        </div>
-      </div>
-      <div class="hero-visual">
-        <div class="hero-glow"></div>
-        <div class="floating-card fc-1">
-          <div class="fc-icon">✅</div>
-          <div class="fc-text">تمت الموافقة</div>
-        </div>
-        <div class="floating-card fc-2">
-          <div class="fc-icon">📱</div>
-          <div class="fc-text">إشعار واتساب</div>
-        </div>
-        <div class="floating-card fc-3">
-          <div class="fc-icon">🤖</div>
-          <div class="fc-text">ذكاء اصطناعي</div>
+          <a href="https://wa.me/966" target="_blank" class="btn wa-btn hero-btn">📱 تواصل معنا</a>
         </div>
       </div>
     </section>
 
-    <!-- ── SERVICES Section ── -->
+    <!-- ── 2. ACHIEVEMENTS / Stats ── -->
+    <section class="achievements-section">
+      <div class="section-container">
+        <div class="achievements-grid">
+          <div class="achieve-card">
+            <div class="achieve-icon">📋</div>
+            <div class="achieve-num">+500</div>
+            <div class="achieve-label">معاملة منجزة</div>
+          </div>
+          <div class="achieve-card">
+            <div class="achieve-icon">👥</div>
+            <div class="achieve-num">+300</div>
+            <div class="achieve-label">عميل يثق بنا</div>
+          </div>
+          <div class="achieve-card">
+            <div class="achieve-icon">⭐</div>
+            <div class="achieve-num">4.9</div>
+            <div class="achieve-label">تقييم العملاء</div>
+          </div>
+          <div class="achieve-card">
+            <div class="achieve-icon">🏆</div>
+            <div class="achieve-num">+5</div>
+            <div class="achieve-label">سنوات خبرة</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 3. SERVICES ── -->
     <section class="services-section" id="services">
       <div class="section-container">
         <div class="section-badge">خدماتنا</div>
@@ -157,7 +163,7 @@
       </div>
     </section>
 
-    <!-- ── FEATURES Section ── -->
+    <!-- ── 4. FEATURES ── -->
     <section class="features-section">
       <div class="section-container">
         <div class="section-badge">لماذا نحن</div>
@@ -187,95 +193,99 @@
       </div>
     </section>
 
-    <!-- ── LOGIN/CLIENT Section ── -->
+    <!-- ── 5. LOGIN / REGISTER Section ── -->
     <section class="login-section" id="loginSection">
       <div class="section-container">
-        <div class="login-wrapper">
-          <div class="login-info">
-            <h2>ابدأ الآن</h2>
-            <p>استعلم عن معاملتك أو قدم طلب جديد أو سجّل دخولك للوحة الإدارة</p>
-            <div class="login-features-list">
-              <div class="lf-item">✅ متابعة فورية لحالة المعاملة</div>
-              <div class="lf-item">✅ إشعارات واتساب تلقائية</div>
-              <div class="lf-item">✅ مساعد ذكي بالذكاء الاصطناعي</div>
-              <div class="lf-item">✅ تقارير يومية وإحصائيات</div>
+        <div class="section-badge">ابدأ الآن</div>
+        <h2 class="section-title center-text">دخول المنصة</h2>
+
+        <div class="auth-tabs-wrapper">
+          <div class="auth-tabs">
+            <button class="auth-tab active" id="tabClient" type="button">🔍 استعلام عن معاملة</button>
+            <button class="auth-tab" id="tabNewRequest" type="button">📋 طلب معاملة جديدة</button>
+            <button class="auth-tab" id="tabAdmin" type="button">🔐 تسجيل دخول الإدارة</button>
+          </div>
+
+          <!-- Panel 1: Client Inquiry -->
+          <div class="auth-panel" id="clientPanel">
+            <div class="auth-card">
+              <div class="auth-card-header">
+                <h3>🔍 استعلام حالة المعاملة</h3>
+                <p class="muted">أدخل رقم المعاملة ورقم الجوال للاستعلام</p>
+              </div>
+              <form id="clientForm" class="form">
+                <label>رقم المعاملة
+                  <input type="text" id="clientTxnNumber" required placeholder="مثل: TXN-001" />
+                </label>
+                <label>رقم الجوال
+                  <input type="tel" id="clientPhone" placeholder="05xxxxxxxx" required />
+                </label>
+                <button type="submit" class="btn primary full-w">🔍 استعلام</button>
+                <div id="clientError" class="msg error hidden"></div>
+              </form>
+              <div id="clientResult" class="result-card hidden"></div>
             </div>
           </div>
 
-          <div class="login-card">
-            <div class="tabs pill-tabs">
-              <button id="tabClient" class="tab active" type="button">استعلام عميل</button>
-              <button id="tabAdmin" class="tab" type="button">دخول الإدارة</button>
-            </div>
-
-            <!-- Client Panel -->
-            <div id="clientPanel">
-              <div class="section-block">
-                <h3 class="subhead">🔍 استعلام حالة المعاملة</h3>
-                <form id="clientForm" class="form">
-                  <label>رقم المعاملة
-                    <input type="text" id="clientTxnNumber" required />
-                  </label>
-                  <label>رقم الجوال
-                    <input type="tel" id="clientPhone" placeholder="05xxxxxxxx" required />
-                  </label>
-                  <button type="submit" class="btn primary full-w">🔍 استعلام</button>
-                  <div id="clientError" class="msg error hidden"></div>
-                </form>
-                <div id="clientResult" class="result-card hidden"></div>
+          <!-- Panel 2: New Request -->
+          <div class="auth-panel hidden" id="requestPanel">
+            <div class="auth-card">
+              <div class="auth-card-header">
+                <h3>📋 طلب معاملة جديدة</h3>
+                <p class="muted">قدم طلبك وسنتواصل معك في أقرب وقت</p>
               </div>
-
-              <div class="divider"></div>
-
-              <div class="section-block">
-                <h3 class="subhead">📋 طلب معاملة جديدة</h3>
-                <form id="requestForm" class="form">
+              <form id="requestForm" class="form">
+                <div class="form-grid-2">
                   <label>الاسم الكامل
                     <input type="text" id="reqName" required />
                   </label>
                   <label>رقم الجوال
                     <input type="tel" id="reqPhone" placeholder="05xxxxxxxx" required />
                   </label>
-                  <label>نوع الخدمة المطلوبة
-                    <input type="text" id="reqService" required />
-                  </label>
-                  <label>ملاحظات
-                    <textarea id="reqNotes" rows="3" placeholder="تفاصيل إضافية إن وجدت"></textarea>
-                  </label>
-                  <button type="submit" class="btn outline full-w">📨 إرسال الطلب</button>
-                  <div id="requestSuccess" class="msg success hidden"></div>
-                </form>
-              </div>
+                </div>
+                <label>نوع الخدمة المطلوبة
+                  <input type="text" id="reqService" required placeholder="مثل: إصدار ترخيص" />
+                </label>
+                <label>ملاحظات
+                  <textarea id="reqNotes" rows="3" placeholder="تفاصيل إضافية إن وجدت"></textarea>
+                </label>
+                <button type="submit" class="btn primary full-w">📨 إرسال الطلب</button>
+                <div id="requestSuccess" class="msg success hidden"></div>
+              </form>
             </div>
+          </div>
 
-            <!-- Admin Login Panel -->
-            <div id="adminPanel" class="hidden">
-              <div class="admin-lock-icon">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5">
-                  <rect x="3" y="11" width="18" height="11" rx="2" />
-                  <path d="M7 11V7a5 5 0 0110 0v4" />
-                  <circle cx="12" cy="16" r="1" />
-                </svg>
+          <!-- Panel 3: Admin Login -->
+          <div class="auth-panel hidden" id="adminPanel">
+            <div class="auth-card" style="max-width:420px;margin:0 auto">
+              <div class="auth-card-header center-text">
+                <div class="admin-lock-icon">
+                  <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5">
+                    <rect x="3" y="11" width="18" height="11" rx="2" />
+                    <path d="M7 11V7a5 5 0 0110 0v4" />
+                    <circle cx="12" cy="16" r="1" />
+                  </svg>
+                </div>
+                <h3>تسجيل دخول الإدارة</h3>
+                <p class="muted">للموظفين والمشرفين فقط</p>
               </div>
-              <form id="loginForm" class="form" style="max-width:340px;margin:0 auto">
+              <form id="loginForm" class="form">
                 <label>اسم المستخدم
                   <input type="text" id="loginUsername" autocomplete="username" required />
                 </label>
                 <label>كلمة المرور
                   <input type="password" id="loginPassword" autocomplete="current-password" required />
                 </label>
-                <button type="submit" class="btn primary full-w">🔐 دخول</button>
+                <button type="submit" class="btn primary full-w">🔐 تسجيل الدخول</button>
                 <div id="loginError" class="msg error hidden"></div>
               </form>
             </div>
-
-            <div class="hint center-text">دخول الإدارة مخصص للموظفين فقط.</div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ── CONTACT Section ── -->
+    <!-- ── 6. CONTACT ── -->
     <section class="contact-section">
       <div class="section-container center-text">
         <h2 class="section-title">تواصل معنا</h2>
@@ -288,6 +298,7 @@
     </section>
 
   </main>
+
 
 
   <!-- ═══════════════════════════════════ -->

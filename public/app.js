@@ -91,20 +91,57 @@ $("logoutBtn").addEventListener("click", function () {
     showLogin();
 });
 
-// ── Tabs (Login page) ──
-$("tabClient").addEventListener("click", function () {
-    $("tabClient").classList.add("active");
-    $("tabAdmin").classList.remove("active");
-    $("clientPanel").classList.remove("hidden");
-    $("adminPanel").classList.add("hidden");
+// ── Auth Tabs (Landing page - 3 tabs) ──
+var authTabs = [
+    { btn: "tabClient", panel: "clientPanel" },
+    { btn: "tabNewRequest", panel: "requestPanel" },
+    { btn: "tabAdmin", panel: "adminPanel" }
+];
+
+authTabs.forEach(function (tab) {
+    var btnEl = $(tab.btn);
+    if (!btnEl) return;
+    btnEl.addEventListener("click", function () {
+        // Deactivate all
+        authTabs.forEach(function (t) {
+            var b = $(t.btn);
+            var p = $(t.panel);
+            if (b) b.classList.remove("active");
+            if (p) p.classList.add("hidden");
+        });
+        // Activate clicked
+        btnEl.classList.add("active");
+        var panel = $(tab.panel);
+        if (panel) panel.classList.remove("hidden");
+    });
 });
 
-$("tabAdmin").addEventListener("click", function () {
-    $("tabAdmin").classList.add("active");
-    $("tabClient").classList.remove("active");
-    $("adminPanel").classList.remove("hidden");
-    $("clientPanel").classList.add("hidden");
-});
+// ── Hero Search Bar ──
+var heroSearchForm = $("heroSearchForm");
+if (heroSearchForm) {
+    heroSearchForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        var query = $("heroSearchInput").value.trim();
+        var resultDiv = $("heroSearchResult");
+        if (!query) return;
+        resultDiv.classList.remove("hidden");
+        resultDiv.innerHTML = '<p style="color:var(--muted)">جاري البحث...</p>';
+        try {
+            var data = await api("POST", "/api/client-lookup", {
+                txnNumber: query,
+                phone: ""
+            });
+            resultDiv.innerHTML = '<div style="padding:8px">' +
+                '<div style="font-weight:800;font-size:16px;margin-bottom:8px">📋 ' + data.txnNumber + '</div>' +
+                '<div>الحالة: <span style="color:var(--accent);font-weight:700">' + data.status + '</span></div>' +
+                '<div>النوع: ' + data.serviceType + '</div>' +
+                '</div>';
+        } catch (err) {
+            resultDiv.innerHTML = '<p style="color:var(--red)">❌ ' + err.message + '</p>' +
+                '<p style="color:var(--muted);font-size:13px">جرب إدخال رقم المعاملة في خانة الاستعلام أدناه مع رقم الجوال</p>';
+        }
+    });
+}
 
 // ════════════════════════════════
 //    CLIENT LOOKUP & REQUEST
