@@ -24,9 +24,11 @@ const PORT = process.env.PORT || 3000;
 const JWT_SECRET = "moteb_jwt_secret_2024_secure";
 
 // ── Gemini AI with retry ──
-const genAI = new GoogleGenerativeAI("AIzaSyCQC-5weHY8rKqT3nh28eC-WR8dK2kD15A");
+const GEMINI_KEY = process.env.GEMINI_API_KEY || "AIzaSyCQC-5weHY8rKqT3nh28eC-WR8dK2kD15A";
+const genAI = new GoogleGenerativeAI(GEMINI_KEY);
 
-const AI_MODELS = ["gemini-2.0-flash-lite", "gemini-2.0-flash", "gemini-1.5-flash"];
+const AI_MODELS = ["gemini-2.5-flash-preview-05-20", "gemini-2.5-pro-preview-05-06", "gemini-2.0-flash"];
+
 
 async function askAI(prompt, retries = 3) {
   for (const modelName of AI_MODELS) {
