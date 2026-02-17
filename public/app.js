@@ -174,15 +174,25 @@ $("requestForm").addEventListener("submit", async function (e) {
     e.preventDefault();
     $("requestSuccess").classList.add("hidden");
     try {
+        var name = $("reqName").value.trim();
+        var phone = $("reqPhone").value.trim();
+        var email = $("reqEmail") ? $("reqEmail").value.trim() : "";
+        var service = $("reqService").value.trim();
+        var notes = $("reqNotes").value.trim();
+
+        // Register client
+        try { await api("POST", "/api/client/register", { name: name, phone: phone, email: email }); } catch (e) { }
+
+        // Create request
         var data = await api("POST", "/api/client/request", {
-            client: $("reqName").value.trim(),
-            phone: $("reqPhone").value.trim(),
-            service: $("reqService").value.trim(),
-            notes: $("reqNotes").value.trim()
+            client: name,
+            phone: phone,
+            service: service,
+            notes: notes
         });
-        $("requestSuccess").textContent = "تم استلام طلبك. رقم المعاملة: " + data.number;
+        $("requestSuccess").textContent = "تم استلام طلبك بنجاح! ✅ رقم المعاملة: " + data.number;
         $("clientTxnNumber").value = data.number;
-        $("clientPhone").value = $("reqPhone").value;
+        $("clientPhone").value = phone;
         $("requestForm").reset();
         $("requestSuccess").classList.remove("hidden");
         showToast("تم إرسال الطلب: " + data.number);
@@ -190,6 +200,7 @@ $("requestForm").addEventListener("submit", async function (e) {
         showToast("حدث خطأ: " + err.message);
     }
 });
+
 
 // ════════════════════════════════
 //    DASHBOARD PAGE SWITCHING
@@ -935,3 +946,80 @@ if (isTrackingPage) {
 } else {
     showLogin();
 }
+
+// ════════════════════════════════
+//    FLOATING AI CHATBOT
+// ════════════════════════════════
+(function () {
+    var toggle = $("aiChatToggle");
+    var panel = $("aiChatPanel");
+    var chatIcon = toggle ? toggle.querySelector(".ai-chat-icon") : null;
+    var chatClose = toggle ? toggle.querySelector(".ai-chat-close") : null;
+    var chatForm = $("aiChatForm");
+    var chatInput = $("aiChatInput");
+    var chatMessages = $("aiChatMessages");
+    var isOpen = false;
+
+    if (!toggle) return;
+
+    toggle.addEventListener("click", function () {
+        isOpen = !isOpen;
+        if (isOpen) {
+            panel.classList.remove("hidden");
+            chatIcon.classList.add("hidden");
+            chatClose.classList.remove("hidden");
+            chatInput.focus();
+        } else {
+            panel.classList.add("hidden");
+            chatIcon.classList.remove("hidden");
+            chatClose.classList.add("hidden");
+        }
+    });
+
+    function addMsg(text, type) {
+        var div = document.createElement("div");
+        div.className = "ai-msg " + type;
+        var bubble = document.createElement("div");
+        bubble.className = "ai-msg-bubble";
+        bubble.innerHTML = text.replace(/\n/g, "<br>");
+        div.appendChild(bubble);
+        chatMessages.appendChild(div);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        return div;
+    }
+
+    function addTyping() {
+        var div = document.createElement("div");
+        div.className = "ai-msg bot";
+        div.id = "aiTyping";
+        div.innerHTML = '<div class="ai-msg-typing"><span></span><span></span><span></span></div>';
+        chatMessages.appendChild(div);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function removeTyping() {
+        var t = $("aiTyping");
+        if (t) t.remove();
+    }
+
+    if (chatForm) {
+        chatForm.addEventListener("submit", async function (e) {
+            e.preventDefault();
+            var msg = chatInput.value.trim();
+            if (!msg) return;
+            addMsg(msg, "user");
+            chatInput.value = "";
+            addTyping();
+
+            try {
+                var data = await api("POST", "/api/ai/chat", { message: msg });
+                removeTyping();
+                addMsg(data.reply, "bot");
+            } catch (err) {
+                removeTyping();
+                addMsg("عذراً، حدث خطأ. يرجى المحاولة مرة أخرى أو التواصل عبر واتساب: 966502049200", "bot");
+            }
+        });
+    }
+})();
+

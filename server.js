@@ -7,12 +7,14 @@ const fs = require("fs");
 const {
   initDB, createUser, getUser, getAllUsers, deleteUser, verifyPassword,
   getAllTxns, getTxnById, getTxnByNumberAndPhone, createTxn, updateTxn, deleteTxn, searchTxns, getTxnsByStatus,
+  searchTxnByNumber,
   getStats, getAuditLog, getAllAuditLogs,
   getNotifications, markNotificationRead, markAllNotificationsRead, getUnreadCount,
   createShareLink, getShareLink, getShareLinkByTxn,
   saveSetting, getSetting, getAllSettings,
   logMessage, getMessageLog, getMessageLogByTxn,
-  getDailyReport
+  getDailyReport,
+  registerClient, getClientByPhone, getAllClients
 } = require("./db");
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
@@ -201,16 +203,52 @@ app.post("/api/notifications/read-all", auth, (req, res) => {
   res.json({ ok: true });
 });
 
-// ── AI Chat ──
+// ── AI Agent (Full Transaction Assistant) ──
 app.post("/api/ai/chat", async (req, res) => {
   try {
-    const systemPrompt = `أنت مساعد ذكي لمنصة "معاملات متعب العنزي" لمتابعة المعاملات الحكومية والخدمات.
-أجب دائماً باللغة العربية. كن مختصراً ومفيداً.
-الخدمات المتاحة تشمل: إصدار تراخيص، تجديد سجلات، معاملات حكومية، وغيرها.
-حالات المعاملة: جديد، بانتظار عرض السعر، بانتظار الدفع، بانتظار زيارة الوزارة، تمت الموافقة، مرفوض، مغلق.
-إذا سأل العميل عن حالة معاملته، اطلب منه رقم المعاملة ورقم الجوال ليستخدم خاصية الاستعلام.`;
+    const { message, txnNumber, phone } = req.body;
 
-    const reply = await askAI(`${systemPrompt}\n\nسؤال العميل: ${req.body.message}`);
+    // Try to find transaction data if number provided
+    let txnContext = '';
+    if (txnNumber) {
+      const txn = searchTxnByNumber(txnNumber);
+      if (txn) {
+        txnContext = `\n\nبيانات المعاملة المطلوبة:\n- رقم المعاملة: ${txn.number}\n- العميل: ${txn.client}\n- الخدمة: ${txn.service}\n- الحالة: ${txn.status}\n- عرض السعر: ${txn.quote || 'غير محدد'}\n- الدفع: ${txn.payment || 'غير محدد'}\n- ملاحظات: ${txn.notes || 'لا يوجد'}\n- تاريخ الإنشاء: ${txn.createdAt}\n- آخر تحديث: ${txn.updatedAt}`;
+      } else {
+        txnContext = `\n\nلم يتم العثور على معاملة برقم: ${txnNumber}`;
+      }
+    }
+
+    // Also search in message for txn numbers
+    const txnMatch = message.match(/(?:TXN|REQ|معاملة|رقم)[\s-]*([\w-]+)/i);
+    if (txnMatch && !txnNumber) {
+      const found = searchTxnByNumber(txnMatch[1]) || searchTxnByNumber('TXN-' + txnMatch[1]) || searchTxnByNumber('REQ-' + txnMatch[1]);
+      if (found) {
+        txnContext = `\n\nبيانات المعاملة:\n- رقم: ${found.number}\n- العميل: ${found.client}\n- الخدمة: ${found.service}\n- الحالة: ${found.status}\n- السعر: ${found.quote || 'غير محدد'}\n- آخر تحديث: ${found.updatedAt}`;
+      }
+    }
+
+    // Get platform stats for context
+    const stats = getStats();
+
+    const systemPrompt = `أنت وكيل ذكي اسمك "مساعد 2169" تابع لمنصة 2169 لإدارة المعاملات الحكومية.
+صاحب المنصة: متعب العنزي.
+أنت وكيل كامل الصلاحيات يمكنك:
+1. الإجابة عن أي سؤال يخص المعاملات الحكومية
+2. البحث عن حالة المعاملات وإعطاء تفاصيلها
+3. شرح خطوات ومراحل المعاملات
+4. تقديم نصائح وتوصيات
+5. المساعدة في تقديم طلبات جديدة
+
+الخدمات المتاحة: إصدار/تجديد تراخيص، تجديد سجلات تجارية، معاملات حكومية، نقل كفالة، إصدار وثائق رسمية، استخراج تأشيرات.
+حالات المعاملة: جديد، بانتظار عرض السعر، بانتظار الدفع، بانتظار زيارة الوزارة، تمت الموافقة، مرفوض، مغلق.
+
+إحصائيات المنصة: ${stats.total} معاملة إجمالية، ${stats.recentWeek} هذا الأسبوع.
+
+رقم التواصل: 966502049200
+أجب دائماً بالعربية، كن ودوداً ومحترفاً وشاملاً.${txnContext}`;
+
+    const reply = await askAI(`${systemPrompt}\n\nسؤال العميل: ${message}`);
     res.json({ ok: true, reply });
   } catch (e) {
     console.error("AI Error:", e.message);
@@ -223,7 +261,7 @@ app.post("/api/ai/summarize", auth, async (req, res) => {
   try {
     const txns = getAllTxns();
     const stats = getStats();
-    const prompt = `أنت محلل بيانات لمنصة "معاملات متعب العنزي".
+    const prompt = `أنت محلل بيانات لمنصة 2169.
 لخّص الوضع الحالي للمعاملات بشكل مختصر وواضح باللغة العربية.
 
 الإحصائيات:
@@ -243,6 +281,29 @@ ${txns.slice(0, 10).map(t => `${t.number}: ${t.service} - ${t.status}`).join("\n
     console.error("AI Summarize Error:", e.message);
     res.status(500).json({ ok: false, message: e.message });
   }
+});
+
+// ── Client Registration ──
+app.post("/api/client/register", (req, res) => {
+  try {
+    const { name, phone, email } = req.body;
+    if (!name || !phone) return res.status(400).json({ ok: false, message: "الاسم ورقم الجوال مطلوبان" });
+    const client = registerClient(name, phone, email);
+    res.json({ ok: true, client });
+  } catch (e) {
+    res.status(500).json({ ok: false, message: e.message });
+  }
+});
+
+app.get("/api/clients", auth, (req, res) => {
+  res.json({ ok: true, clients: getAllClients() });
+});
+
+// ── Support Contact (WhatsApp redirect) ──
+app.get("/api/support", (req, res) => {
+  const msg = req.query.msg || 'مرحباً، أحتاج مساعدة من منصة 2169';
+  const waUrl = `https://wa.me/966502049200?text=${encodeURIComponent(msg)}`;
+  res.json({ ok: true, waUrl });
 });
 
 // ── Export CSV ──

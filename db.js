@@ -97,15 +97,29 @@ async function initDB() {
     )
   `);
 
+    // Clients table for registration
+    db.run(`
+    CREATE TABLE IF NOT EXISTS clients (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      phone TEXT NOT NULL,
+      email TEXT,
+      createdAt TEXT DEFAULT (datetime('now','localtime'))
+    )
+    `);
+
     // Default settings
     const existingSettings = db.exec("SELECT key FROM settings WHERE key = 'platform_name'");
     if (existingSettings.length === 0) {
-        db.run("INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)", ["platform_name", "معاملات متعب العنزي"]);
-        db.run("INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)", ["contact_phone", ""]);
+        db.run("INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)", ["platform_name", "منصة 2169"]);
+        db.run("INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)", ["contact_phone", "966502049200"]);
         db.run("INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)", ["whatsapp_template_status", "مرحباً {client}،\nتم تحديث حالة معاملتك رقم {number} إلى: {status}\n\nلمتابعة معاملتك: {link}\n\nمع تحيات {platform}"]);
         db.run("INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)", ["whatsapp_template_payment", "مرحباً {client}،\nنود إبلاغك بأن معاملتك رقم {number} بانتظار الدفع.\nالمبلغ المطلوب: {quote}\n\nلمتابعة معاملتك: {link}\n\nمع تحيات {platform}"]);
         db.run("INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)", ["whatsapp_template_reminder", "مرحباً {client}،\nتذكير بخصوص معاملتك رقم {number}\nالحالة الحالية: {status}\n\nلمتابعة معاملتك: {link}\n\nمع تحيات {platform}"]);
     }
+    // Update platform name if old value
+    db.run("UPDATE settings SET value = 'منصة 2169' WHERE key = 'platform_name' AND value = 'معاملات متعب العنزي'");
+    db.run("UPDATE settings SET value = '966502049200' WHERE key = 'contact_phone' AND value = ''");
 
     // Create default admin if not exists
     const admin = db.exec("SELECT id FROM users WHERE username = 'admin'");
@@ -446,15 +460,49 @@ function getTxnsByStatus(status) {
     return rowsToObjects(rows);
 }
 
+// ── Clients Registration ──
+function registerClient(name, phone, email) {
+    // Check existing
+    const existing = db.exec("SELECT * FROM clients WHERE phone = ?", [phone]);
+    if (existing.length > 0 && existing[0].values.length > 0) {
+        // Update name/email
+        db.run("UPDATE clients SET name = ?, email = ? WHERE phone = ?", [name, email || '', phone]);
+        save();
+        return rowsToObjects(db.exec("SELECT * FROM clients WHERE phone = ?", [phone]))[0];
+    }
+    db.run("INSERT INTO clients (name, phone, email) VALUES (?, ?, ?)", [name, phone, email || '']);
+    save();
+    return rowsToObjects(db.exec("SELECT * FROM clients WHERE phone = ?", [phone]))[0];
+}
+
+function getClientByPhone(phone) {
+    const rows = db.exec("SELECT * FROM clients WHERE phone = ?", [phone]);
+    return rowsToObjects(rows)[0] || null;
+}
+
+function getAllClients() {
+    const rows = db.exec("SELECT * FROM clients ORDER BY createdAt DESC");
+    return rowsToObjects(rows);
+}
+
+// ── Search by number only (for AI agent) ──
+function searchTxnByNumber(number) {
+    const rows = db.exec("SELECT * FROM transactions WHERE number = ?", [number]);
+    return rowsToObjects(rows)[0] || null;
+}
+
 module.exports = {
     initDB, getDB, save,
     createUser, getUser, getAllUsers, deleteUser, verifyPassword,
     getAllTxns, getTxnById, getTxnByNumberAndPhone, createTxn, updateTxn, deleteTxn, searchTxns, getTxnsByStatus,
+    searchTxnByNumber,
     getStats,
     addAuditLog, getAuditLog, getAllAuditLogs,
     addNotification, getNotifications, markNotificationRead, markAllNotificationsRead, getUnreadCount,
     createShareLink, getShareLink, getShareLinkByTxn,
     saveSetting, getSetting, getAllSettings,
     logMessage, getMessageLog, getMessageLogByTxn,
-    getDailyReport
+    getDailyReport,
+    registerClient, getClientByPhone, getAllClients
 };
+
